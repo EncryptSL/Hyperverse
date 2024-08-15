@@ -93,12 +93,10 @@ public final class Hyperverse extends JavaPlugin implements HyperverseAPI, Liste
     private final ServicePipeline servicePipeline = ServicePipeline.builder().build();
 
     private final List<Version> supportedVersions = List.of(
-            Version.parseMinecraft("1.17.1"),
-            Version.parseMinecraft("1.18.2"),
-            Version.parseMinecraft("1.19.4"),
             Version.parseMinecraft("1.20.4"),
             Version.parseMinecraft("1.20.6"),
-            Version.parseMinecraft("1.21")
+            Version.parseMinecraft("1.21"),
+            Version.parseMinecraft("1.21.1")
     );
 
     private WorldManager worldManager;
@@ -146,7 +144,7 @@ public final class Hyperverse extends JavaPlugin implements HyperverseAPI, Liste
                     new TaskFactoryModule()
             );
         } catch (final Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
             getLogger().severe("Failed to creator the Guice injector. Disabling.");
             this.getServer().getPluginManager().disablePlugin(this);
             return;
@@ -177,7 +175,7 @@ public final class Hyperverse extends JavaPlugin implements HyperverseAPI, Liste
             try {
                 this.attemptCopyCaptions(this.hyperConfiguration.getLanguageCode());
             } catch (final Exception e) {
-                e.printStackTrace();
+                e.fillInStackTrace();
             }
         }
 
@@ -205,7 +203,7 @@ public final class Hyperverse extends JavaPlugin implements HyperverseAPI, Liste
                 this.worldManager = this.injector.getInstance(WorldManager.class);
                 this.worldManager.loadWorlds();
             } catch (final Exception e) {
-                e.printStackTrace();
+                e.fillInStackTrace();
             }
         }
 
@@ -216,21 +214,21 @@ public final class Hyperverse extends JavaPlugin implements HyperverseAPI, Liste
             this.getServer().getPluginManager()
                     .registerEvents(this.injector.getInstance(EventListener.class), this);
         } catch (final Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
 
         // Create the command manager instance
         try {
             this.injector.getInstance(HyperCommandManager.class);
         } catch (final Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
 
         // Get API classes
         try {
             this.worldFactory = this.injector.getInstance(HyperWorldFactory.class);
         } catch (final Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
 
         // Initialize bStats metrics tracking
@@ -274,7 +272,7 @@ public final class Hyperverse extends JavaPlugin implements HyperverseAPI, Liste
                     "§8- §7should separate player profiles? " + this.hyperConfiguration
                             .shouldGroupProfiles());
         } catch (final Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
             return false;
         }
         return true;
@@ -285,7 +283,7 @@ public final class Hyperverse extends JavaPlugin implements HyperverseAPI, Liste
             this.worldManager = this.injector.getInstance(WorldManager.class);
             this.worldManager.loadWorlds();
         } catch (final Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
             return false;
         }
         return true;
@@ -298,7 +296,7 @@ public final class Hyperverse extends JavaPlugin implements HyperverseAPI, Liste
                     SafeTeleportService.defaultService()
             );
         } catch (Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
             return false;
         }
         return true;
@@ -333,7 +331,7 @@ public final class Hyperverse extends JavaPlugin implements HyperverseAPI, Liste
                 this.pluginFeatureManager.registerFeature("Essentials", EssentialsFeature.class);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
             return false;
         }
         return true;
@@ -347,7 +345,7 @@ public final class Hyperverse extends JavaPlugin implements HyperverseAPI, Liste
                 return false;
             }
         } catch (final Exception e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
             return false;
         }
         getLogger().info("Successfully connected to the database!");
@@ -388,7 +386,7 @@ public final class Hyperverse extends JavaPlugin implements HyperverseAPI, Liste
         try {
             translationNode = loader.load();
         } catch (IOException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
             translationNode = loader.createNode();
         }
 
@@ -396,7 +394,7 @@ public final class Hyperverse extends JavaPlugin implements HyperverseAPI, Liste
             try {
                 Files.createFile(messagePath);
             } catch (IOException e) {
-                e.printStackTrace();
+                e.fillInStackTrace();
                 return false;
             }
         }
@@ -409,7 +407,7 @@ public final class Hyperverse extends JavaPlugin implements HyperverseAPI, Liste
                 try {
                     messageNode.set(messages.get(key));
                 } catch (SerializationException ex) {
-                    ex.printStackTrace();
+                    ex.fillInStackTrace();
                 }
             } else {
                 messages.put(key, messageNode.getString());
@@ -418,7 +416,7 @@ public final class Hyperverse extends JavaPlugin implements HyperverseAPI, Liste
         try {
             loader.save(translationNode);
         } catch (IOException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
             return false;
         }
         return true;

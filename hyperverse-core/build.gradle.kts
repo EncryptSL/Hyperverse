@@ -44,15 +44,6 @@ dependencies {
     implementation("net.kyori:adventure-text-minimessage:4.14.0")
 
     implementation(projects.hyperverseNmsUnsupported)
-    runtimeOnly(project(":hyperverse-nms-1-17")) {
-        targetConfiguration = "reobf"
-    }
-    runtimeOnly(project(":hyperverse-nms-1-18")) {
-        targetConfiguration = "reobf"
-    }
-    runtimeOnly(project(":hyperverse-nms-1-19")) {
-        targetConfiguration = "reobf"
-    }
     runtimeOnly(project(":hyperverse-nms-1-20")) {
         targetConfiguration = "reobf"
     }
@@ -60,6 +51,9 @@ dependencies {
         targetConfiguration = "reobf"
     }
     runtimeOnly(project(":hyperverse-nms-1-21")) {
+        targetConfiguration = "reobf"
+    }
+    runtimeOnly(project(":hyperverse-nms-1-21-1")) {
         targetConfiguration = "reobf"
     }
 }
@@ -117,12 +111,10 @@ tasks {
     shadowJar {
         minimize {
             exclude(project(":hyperverse-nms-unsupported"))
-            exclude(project(":hyperverse-nms-1-17"))
-            exclude(project(":hyperverse-nms-1-18"))
-            exclude(project(":hyperverse-nms-1-19"))
             exclude(project(":hyperverse-nms-1-20"))
             exclude(project(":hyperverse-nms-1-20-6"))
             exclude(project(":hyperverse-nms-1-21"))
+            exclude(project(":hyperverse-nms-1-21-1"))
         }
         mergeServiceFiles()
 
@@ -160,6 +152,6 @@ tasks {
 
     runServer {
         java.toolchain.languageVersion.set(JavaLanguageVersion.of(21))
-        minecraftVersion("1.21")
+        minecraftVersion("1.21.1")
     }
 }
